@@ -1,7 +1,45 @@
-<mvc:View controllerName="ap.material.controller.Main"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-        <content />
-    </Page>
+<mvc:View controllerName="ap.material.controller.Main" xmlns="sap.m" xmlns:f="sap.f" xmlns:mvc="sap.ui.core.mvc" xmlns:fb="sap.ui.comp.filterbar" xmlns:core="sap.ui.core" displayBlock="true">
+    <f:DynamicPage id="page">
+        <f:header>
+            <f:DynamicPageHeader>
+                <f:content>
+                    <!-- Additional header content can be added here -->
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox>
+
+                <Table id="MaterialTable" items="{/MaterialSet}">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="Material" level="H2" />
+                            <ToolbarSpacer />
+                            <Button icon="sap-icon://excel-attachment" press="onExport" />
+                            <Button tooltip="Sort" icon="sap-icon://sort" press="handleSortButtonPressed" />
+                            <Button tooltip="Filter" icon="sap-icon://filter" press="handleFilterButtonPressed" />
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column id="MatnrCol" width="12em">
+                            <VBox>
+                                <Text text="Matnr" />
+                            </VBox>
+                        </Column>
+                        <Column id="MatDescription" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+                            <Text text="MatDescription" />
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem type="Navigation" vAlign="Middle" press=".onListItemPress">
+                            <cells>
+                                <ObjectIdentifier text="{Matnr}" />
+                                <Text text="{MatDescription}" />
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </f:content>
+    </f:DynamicPage>
 </mvc:View>

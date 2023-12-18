@@ -57,7 +57,7 @@
     }
   },
   "sap.ui5": {
-    "flexEnabled": true,
+    "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.120.3",
       "libs": {
@@ -95,40 +95,55 @@
         }
       ]
     },
-    "routing": {
-      "config": {
-        "routerClass": "sap.m.routing.Router",
-        "viewType": "XML",
-        "async": true,
-        "viewPath": "ap.material.view",
-        "controlAggregation": "pages",
-        "controlId": "app",
-        "clearControlAggregation": false
-      },
-      "routes": [
-        {
-          "name": "RouteMain",
-          "pattern": ":?query:",
-          "target": [
-            "TargetMain"
-          ]
-        }
-      ],
-      "targets": {
-        "TargetMain": {
-          "viewType": "XML",
-          "transition": "slide",
-          "clearControlAggregation": false,
-          "viewId": "Main",
-          "viewName": "Main"
-        }
-      }
-    },
+    
     "rootView": {
       "viewName": "ap.material.view.App",
       "type": "XML",
       "async": true,
-      "id": "App"
+      "id": "fcl"
+    },
+
+
+    "routing": {
+      "config": {
+        "routerClass": "sap.f.routing.Router",
+        "type": "View",
+        "viewType": "XML",
+        "path": "ap.material.view",
+        "controlId": "fcl",
+        "transition": "slide",
+        "bypassed": {},
+        "async": true,
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "pattern": ":?layout:",
+          "name": "master",
+          "target": [
+            "master"
+          ]
+        },
+        {
+          "pattern": "detail/{material}/{layout}",
+          "name": "detail",
+          "target": [
+            "master",
+            "detail"
+          ]
+        }
+      ],
+      "targets": {
+        "master": {
+          "viewName": "Main",
+          "controlAggregation": "beginColumnPages"
+        },
+        "detail": {
+          "viewName": "MaterialDetail",
+          "controlAggregation": "midColumnPages"
+        }
+      }
     }
+
   }
 }
