@@ -1,16 +1,12 @@
 sap.ui.define(['sap/ui/Device','sap/ui/model/Sorter',
 'sap/ui/core/Fragment',
-'sap/ui/model/Filter'], function (Device, Sorter, Fragment, Filter) {
+'sap/ui/model/Filter'], 
+
+function (Device, Sorter, Fragment, Filter) {
     "use strict";
 
     return {
         handleSortButtonPressed: function (oController, sFragment) {
-            this.getViewSettingsDialog(sFragment, oController)
-                .then(function (oViewSettingsDialog) {
-                    oViewSettingsDialog.open();
-                });
-        },
-        handleFilterButtonPressed: function (oController, sFragment) {
             this.getViewSettingsDialog(sFragment, oController)
                 .then(function (oViewSettingsDialog) {
                     oViewSettingsDialog.open();
@@ -49,25 +45,45 @@ sap.ui.define(['sap/ui/Device','sap/ui/model/Sorter',
             // apply the selected sort and group settings
             oBinding.sort(aSorters);
         },
-        handleFilterDialogConfirm: function (oEvent, oController, sTableName) {
-            var oTable = oController.byId(sTableName),
-                mParams = oEvent.getParameters(),
-                oBinding = oTable.getBinding("items"),
-                aFilters = [];
+        handleFilterBarGo: function (oController, sTableName) {
+            let oTable = oController.byId(sTableName),
+                oFilterBar = oController.getView().byId("filterbar"),
+                oBinding = oTable.getBinding("items")
+                
 
-            mParams.filterItems.forEach(function(oItem) {
-                let sPath = oItem.getParent().getKey(),
-                    sOperator = 'EQ',
-                    sValue1 = oItem.getKey(),
-                    oFilter = new Filter(sPath, sOperator, sValue1);
-                aFilters.push(oFilter);
-            });
+            let aTableFilters = oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
+				let oControl = oFilterGroupItem.getControl(),
+                aFilters = []
+                if(oFilterGroupItem.getName() === 'Search'){
+                    aFilters.push(new Filter({
+                        path: "City",
+                        operator: sap.ui.model.FilterOperator.Contains,
+                        value1: oControl.getValue()
+                    }))
+                }else{
+				let aSelectedKeys = oControl.getSelectedKeys()
+                if(aSelectedKeys.length > 0){
+				    aFilters.push(aSelectedKeys.map(function (sSelectedKey) {
+						return new Filter({
+							path: oFilterGroupItem.getName(),
+							operator: sap.ui.model.FilterOperator.EQ,
+							value1: sSelectedKey
+						});
+					}))
+                }
+                }
 
-            // apply filter settings
-            oBinding.filter(aFilters);
+				if (aFilters.length > 0) {
+					aResult.push(new Filter({
+						filters: aFilters,
+						and: false
+					}));
+				}
 
-            // update filter bar
-            // this.byId("vsdFilterBar").setVisible(aFilters.length > 0);
-            // this.byId("vsdFilterLabel").setText(mParams.filterString);
-        },
+				return aResult;
+			}, []);
+
+
+			oBinding.filter(aTableFilters);
+        }
     }})

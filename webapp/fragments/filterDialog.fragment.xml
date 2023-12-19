@@ -9,8 +9,8 @@
 				key="Matkl"
 				multiSelect="false">
 				<items>
-					<ViewSettingsItem text="Germany" key="DE" />
-					<ViewSettingsItem text="United Stated" key="US" />
+					<!-- <ViewSettingsItem text="Germany" key="DE" />
+					<ViewSettingsItem text="United Stated" key="US" /> -->
 				</items>
 			</ViewSettingsFilterItem>
 

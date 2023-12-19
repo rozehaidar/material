@@ -8,38 +8,52 @@
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
-            <VBox>
+        <Table id="MaterialTable" items="{/MaterialSet}">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="material" level="H2"/>
+                        <ToolbarSpacer/>
+                        <Button icon="sap-icon://excel-attachment" press="onExport"/>
+                        <Button tooltip="Sort" icon="sap-icon://sort" press="handleSortButtonPressed"/>
 
-                <Table id="MaterialTable" items="{/MaterialSet}">
-                    <headerToolbar>
-                        <OverflowToolbar>
-                            <Title text="Material" level="H2" />
-                            <ToolbarSpacer />
-                            <Button icon="sap-icon://excel-attachment" press="onExport" />
-                            <Button tooltip="Sort" icon="sap-icon://sort" press="handleSortButtonPressed" />
-                            <Button tooltip="Filter" icon="sap-icon://filter" press="handleFilterButtonPressed" />
-                        </OverflowToolbar>
-                    </headerToolbar>
-                    <columns>
-                        <Column id="MatnrCol" width="12em">
-                            <VBox>
-                                <Text text="Matnr" />
-                            </VBox>
-                        </Column>
-                        <Column id="MatDescription" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
-                            <Text text="MatDescription" />
-                        </Column>
-                    </columns>
-                    <items>
-                        <ColumnListItem type="Navigation" vAlign="Middle" press=".onListItemPress">
-                            <cells>
-                                <ObjectIdentifier text="{Matnr}" />
-                                <Text text="{MatDescription}" />
-                            </cells>
-                        </ColumnListItem>
-                    </items>
-                </Table>
-            </VBox>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column id="MatnrCol" width="12em">
+                        <VBox>
+                            <Text text="Matnr" />
+                        </VBox>
+                    </Column>
+
+                    <Column id="MatDescription" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+                        <Text text="MatDescription" />
+                    </Column>
+
+                    <Column id="Matkl" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+                        <Text text="Group" />
+                    </Column>
+
+                    <Column id="Mtart" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+                        <Text text="Type" />
+                    </Column>
+
+                    <Column id="Mbrsh" minScreenWidth="Tablet" demandPopin="true" hAlign="End">
+                        <Text text="Industy" />
+                    </Column>
+
+                </columns>
+                <items>
+                    <ColumnListItem type="Navigation" vAlign="Middle" press=".onListItemPress">
+                        <cells>
+                            <ObjectIdentifier text="{Matnr}" />
+                            <Text text="{MatDescription}" />
+                            <Text text="{Matkl}" />
+                            <Text text="{Mtart}" />
+                            <Text text="{Mbrsh}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
         </f:content>
     </f:DynamicPage>
 </mvc:View>
