@@ -49,41 +49,42 @@ function (Device, Sorter, Fragment, Filter) {
             let oTable = oController.byId(sTableName),
                 oFilterBar = oController.getView().byId("filterbar"),
                 oBinding = oTable.getBinding("items")
-                
 
             let aTableFilters = oFilterBar.getFilterGroupItems().reduce(function (aResult, oFilterGroupItem) {
-				let oControl = oFilterGroupItem.getControl(),
-                aFilters = []
-                if(oFilterGroupItem.getName() === 'Search'){
+                let oControl = oFilterGroupItem.getControl(),
+                    aFilters = [];
+
+                if (oFilterGroupItem.getName() === 'Search') {
+                    // Search for 'Type' using Contains operator
                     aFilters.push(new Filter({
-                        path: "City",
+                        path: "Matnr",
                         operator: sap.ui.model.FilterOperator.Contains,
                         value1: oControl.getValue()
-                    }))
-                }else{
-				let aSelectedKeys = oControl.getSelectedKeys()
-                if(aSelectedKeys.length > 0){
-				    aFilters.push(aSelectedKeys.map(function (sSelectedKey) {
-						return new Filter({
-							path: oFilterGroupItem.getName(),
-							operator: sap.ui.model.FilterOperator.EQ,
-							value1: sSelectedKey
-						});
-					}))
+                    }));
+                } else {
+                    let aSelectedKeys = oControl.getSelectedKeys();
+                    if (aSelectedKeys.length > 0) {
+                        // Filter for 'Type,' 'Group,' and 'Industry' using EQ operator
+                        aFilters.push(aSelectedKeys.map(function (sSelectedKey) {
+                            return new Filter({
+                                path: oFilterGroupItem.getName(),
+                                operator: sap.ui.model.FilterOperator.EQ,
+                                value1: sSelectedKey
+                            });
+                        }));
+                    }
                 }
+
+                if (aFilters.length > 0) {
+                    aResult.push(new Filter({
+                        filters: aFilters,
+                        and: false
+                    }));
                 }
 
-				if (aFilters.length > 0) {
-					aResult.push(new Filter({
-						filters: aFilters,
-						and: false
-					}));
-				}
+                return aResult;
+            }, []);
 
-				return aResult;
-			}, []);
-
-
-			oBinding.filter(aTableFilters);
+            oBinding.filter(aTableFilters);
         }
     }})

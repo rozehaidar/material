@@ -4,10 +4,38 @@
             <f:DynamicPageHeader>
                 <f:content>
                     <!-- Additional header content can be added here -->
+                    <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".handleFilterGo" >
+                        
+							<fb:filterGroupItems>
+								<fb:FilterGroupItem name="Search" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+                                        <SearchField width="100%" showSearchButton="false"/>
+									</fb:control>
+								</fb:FilterGroupItem>
+                                <!-- <fb:FilterGroupItem name="Country" label="Country" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+                                        <MultiComboBox
+											name="Name"
+											items="{
+												path: 'settings>/CountryList',
+												templateShareable: true
+											}"
+										>
+											<core:Item key="{settings>Code}" text="{settings>Name}"/>
+										</MultiComboBox>
+									</fb:control>
+								</fb:FilterGroupItem> -->
+							</fb:filterGroupItems>
+						</fb:FilterBar>
+
                 </f:content>
             </f:DynamicPageHeader>
         </f:header>
+        
+
+        
         <f:content>
+            
         <Table id="MaterialTable" items="{/MaterialSet}">
                 <headerToolbar>
                     <OverflowToolbar>
@@ -54,6 +82,7 @@
                     </ColumnListItem>
                 </items>
             </Table>
+
         </f:content>
     </f:DynamicPage>
 </mvc:View>
