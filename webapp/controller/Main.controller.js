@@ -16,8 +16,15 @@ sap.ui.define([
             onInit: function () {
                 // Keeps reference to any of the created sap.m.ViewSettingsDialog-s in this sample
 			    this._mViewSettingsDialogs = {};
-                let aCountry = [{Code: "DE", Name: "Germany"}, {Code: "US", Name:"United States"}]
-                this.getOwnerComponent().getModel("settings").setProperty("/CountryList", aCountry)
+                
+                let aGroup = [{ Code: "G1", Name: "Group 1" }, { Code: "G2", Name: "Group 2" }];
+                this.getOwnerComponent().getModel("settings").setProperty("/GroupList", aGroup);
+
+                let aType = [{ Code: "T1", Name: "Type 1" }, { Code: "T2", Name: "Type 2" }];
+                this.getOwnerComponent().getModel("settings").setProperty("/TypeList", aType);
+
+                let aIndustry = [{ Code: "I1", Name: "Industry 1" }, { Code: "I2", Name: "Industry 2" }];
+                this.getOwnerComponent().getModel("settings").setProperty("/IndustryList", aIndustry);
             },
 
             onListItemPress: function (oEvent) {
@@ -30,12 +37,15 @@ sap.ui.define([
             handleSortButtonPressed: function () {
                 SortAndFilterHelper.handleSortButtonPressed(this, "ap.material.fragments.sortDialog")
             },
+
             handleSortDialogConfirm: function (oEvent) {
                 SortAndFilterHelper.handleSortDialogConfirm(oEvent, this, "MaterialTable")
             },
+
             handleFilterGo: function(oEvent){
                 SortAndFilterHelper.handleFilterBarGo(this, 'MaterialTable')
             }, 
+
             onExport: function(oEvent) {
                 let aCols, oRowBinding, oSettings, oSheet, oTable;
                 
